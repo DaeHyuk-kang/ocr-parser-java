@@ -22,12 +22,13 @@ public class Main {
         String inputPath = args[0];
         String outputPath = args[1];
 
-        System.out.println("ARGS[0]=" + inputPath);
-        System.out.println("ARGS[1]=" + outputPath);
+        System.out.println("[START] OCR Weighing Ticket Parser");
+        System.out.println("[INPUT]  file = " + inputPath);
+        System.out.println("[OUTPUT] file = " + outputPath);
 
         Path in = Path.of(inputPath);
         if (!Files.exists(in)) {
-            System.err.println("Input file not found: " + in.toAbsolutePath());
+            System.err.println("[ERROR] Input file not found: " + in.toAbsolutePath());
             System.exit(2);
         }
 
@@ -38,11 +39,16 @@ public class Main {
                 ? SampleJsonLoader.extractOcrText(raw)
                 : raw;
 
+        System.out.println("[INFO] OCR text extracted (length=" + ocrText.length() + ")");
+
         ParsedTicket ticket;
         try {
             ticket = WeighingParser.parse(ocrText);
+            System.out.println("[INFO] Parsing completed");
         } catch (Exception e) {
-            // 채점 안정성: 어떤 예외가 와도 결과는 만들어서 내보내기
+            // 어떤 예외가 와도 결과는 만들어서 내보내기
+            System.err.println("[WARN] Parsing failed, returning empty result: "
+                    + e.getClass().getSimpleName());
             ticket = new ParsedTicket();
         }
 

@@ -113,6 +113,11 @@ Run tests:
 
 	./gradlew test 
 
+### Logging
+
+Basic process-level logs are printed to standard output to indicate
+execution flow, parsing progress, and output generation.
+
 ### Design Rationale
 
 Parsing and validation are intentionally separated.

@@ -5,31 +5,44 @@ import java.util.regex.Pattern;
 
 public class VehicleNumberExtractor {
 
-    // 예) 차량 번호: 5405
-    // 예) 차량번호: 8713
-    // 예) 차번호: 80구8713
+    // 차량번호 라벨 확장: "차량 No. 0580" 대응
     private static final Pattern VEHICLE_ANCHOR =
-            Pattern.compile("(차량\\s*번호|차량번호|차\\s*번호|차번호)\\s*[:]?\\s*([^\\n\\r]{0,40})");
+            Pattern.compile("(?i)(차량\\s*(번호|no\\.?|넘버)?|차\\s*번호|차번호)\\s*[:.]?\\s*([^\\n\\r]{0,60})");
 
-    // 흔한 번호판 패턴들(정교하게 하려면 더 늘릴 수 있음)
+    // 번호판 패턴(한글 포함 우선), 숫자만(3~5자리)
     private static final Pattern PLATE =
-            Pattern.compile("([0-9]{2,3}[가-힣][0-9]{4}|[0-9]{4,5})");
+            Pattern.compile("([0-9]{2,3}[가-힣][0-9]{4}|[0-9]{3,5})");
+
+    // 도로명주소/연락처 라인 방어(04의 2960-19 같은 것)
+    private static boolean looksLikeAddressOrContact(String line) {
+        String l = line.toLowerCase();
+        if (l.contains("tel") || l.contains("fax")) return true;
+        // "...로 2960-19", "...길 123-4", "...번길 12-3" 같은 패턴
+        if (line.matches(".*(로|길|번길)\\s*\\d+\\s*[-]\\s*\\d+.*")) return true;
+        return false;
+    }
 
     public static String extract(String rawText) {
         if (rawText == null || rawText.isBlank()) return null;
 
+        // 1) 라벨 근처에서 우선 추출
         Matcher anchor = VEHICLE_ANCHOR.matcher(rawText);
         if (anchor.find()) {
-            String near = anchor.group(2);
-
-            // "80구8713", "8713", "5405" 같은 걸 추출
-            Matcher plate = PLATE.matcher(near.replaceAll("\\s+", ""));
+            String near = anchor.group(3); // 라벨 뒤쪽
+            String compact = near.replaceAll("\\s+", "");
+            Matcher plate = PLATE.matcher(compact);
             if (plate.find()) return plate.group(1);
         }
 
-        // fallback: 전체에서라도 찾아보기 (라벨 없는 경우)
-        Matcher plate = PLATE.matcher(rawText.replaceAll("\\s+", ""));
-        if (plate.find()) return plate.group(1);
+        // 2) fallback: 전체에서 찾지 말고 "차량" 들어간 라인에서만 찾기
+        for (String line : rawText.split("\\R")) {
+            if (!(line.contains("차량") || line.toLowerCase().contains("vehicle"))) continue;
+            if (looksLikeAddressOrContact(line)) continue;
+
+            String compact = line.replaceAll("\\s+", "");
+            Matcher plate = PLATE.matcher(compact);
+            if (plate.find()) return plate.group(1);
+        }
 
         return null;
     }
