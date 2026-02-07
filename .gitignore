@@ -1,0 +1,16 @@
+# Gradle
+.gradle/
+**/build/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+bin/
+
+# OS
+.DS_Store
+
+# Output files
+out_*.json
+/tmp/
