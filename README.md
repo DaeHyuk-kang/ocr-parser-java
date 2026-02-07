@@ -11,18 +11,26 @@ Parses OCR text (or sample JSON containing OCR text) into normalized fields:
 - Java 17+
 - Gradle Wrapper included
 
+## Tested Environment
+- OS: macOS (primary)
+- IDE: Eclipse IDE for Java Developers
+- Java: 17 (Temurin)
+- Build Tool: Gradle (Wrapper)
+
+> The project is IDE-agnostic and can be executed via Gradle Wrapper on macOS or Windows.
+
 ## How to Run
 
 ### Input: JSON (sample) or plain text
 Linux / macOS:
 
 ```bash
-./gradlew :app:run --args="samples/sample_01.json /tmp/out.json"
+./gradlew :app:run --args="samples/sample_01.json ./out.json"
 ```
 Windows:
 
-``` bash
-gradlew.bat :app:run --args="samples/sample_01.json C:\temp\out.json"
+``` bat
+gradlew.bat :app:run --args="samples/sample_01.json out.json"
 ```
 
 ### Output
@@ -58,7 +66,7 @@ json{
     - never crashes on malformed input
     - always produces an output JSON
 
-### Assumptions
+## Assumptions
 - All weight values are expressed in kilograms (kg).
 
 - A valid weighing ticket follows the relationship:
@@ -71,7 +79,7 @@ json{
 
 - Vehicle number and weighing date are typically present near the header area of the ticket.
 
-### Limitations
+## Limitations
 - License plate patterns are simplified and may not cover all regional formats.
 
 - Date parsing currently supports common numeric formats only (e.g. YYYY-MM-DD HH:mm:ss).
@@ -81,7 +89,7 @@ no machine learning–based entity recognition is used.
 
 - Severe OCR corruption may still result in missing (null) fields.
 
-### Future Improvements
+## Future Improvements
 - Introduce a state-based pipeline:
 
     - PARSED → VERIFIED → PERSISTED
@@ -95,7 +103,7 @@ no machine learning–based entity recognition is used.
 
 - Optionally integrate NLP-based entity recognition (e.g., spaCy) as a secondary strategy.
 
-### Tests
+## Tests
 
 - Unit tests are designed to validate:
 
@@ -113,12 +121,12 @@ Run tests:
 
 	./gradlew test 
 
-### Logging
+## Logging
 
 Basic process-level logs are printed to standard output to indicate
 execution flow, parsing progress, and output generation.
 
-### Design Rationale
+## Design Rationale
 
 Parsing and validation are intentionally separated.
 
