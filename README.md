@@ -124,3 +124,4 @@ during a later verification or persistence stage.
 
 This approach prevents silent data corruption while maintaining robustness
 against OCR failures.
+# ocr-parser-java
