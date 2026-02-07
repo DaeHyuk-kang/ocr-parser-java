@@ -40,8 +40,21 @@ public class Main {
                 : raw;
 
         System.out.println("[INFO] OCR text extracted (length=" + ocrText.length() + ")");
-
+        
         ParsedTicket ticket;
+     // (1) BOM 제거
+        ocrText = ocrText.replace("\uFEFF", "");
+
+        // (2) 제로폭 문자 제거(가끔 OCR/JSON에서 섞임)
+        ocrText = ocrText.replaceAll("[\\u200B-\\u200D\\u2060]", "");
+
+        // (3) 줄바꿈 통일 (Windows CRLF/LF 차이 제거)
+        ocrText = ocrText.replace("\r\n", "\n").replace("\r", "\n");
+        System.out.println("[INFO] OCR text extracted (length=" + ocrText.length() + ")");
+        System.out.println("[RAW_HEAD] " +
+                ocrText.substring(0, Math.min(300, ocrText.length()))
+                      .replace("\r","\\r").replace("\n","\\n")
+        );
         try {
             ticket = WeighingParser.parse(ocrText);
             System.out.println("[INFO] Parsing completed");
