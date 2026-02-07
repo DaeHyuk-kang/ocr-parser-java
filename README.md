@@ -32,6 +32,7 @@ Windows:
 ``` bat
 gradlew.bat :app:run --args="samples/sample_01.json out.json"
 ```
+- The output path (second argument) can be absolute or relative.
 
 ### Output
 Example output JSON:
