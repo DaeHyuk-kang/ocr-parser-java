@@ -42,7 +42,7 @@ public class WeighingDateExtractor {
         if (date == null) return null;
 
         if (time == null || time.isBlank()) {
-            return date; // 시간 없으면 날짜만 (모델이 String이라면 이게 안전)
+            return date; // 시간 없으면 날짜만
         }
 
         // HH:mm 만 있으면 초를 00으로 맞춰도 되지만, 일단 원문 유지

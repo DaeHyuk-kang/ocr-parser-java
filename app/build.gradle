@@ -19,18 +19,27 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.2'
 }
 
-
-test {
+tasks.named('test') {
     useJUnitPlatform()
 }
 
 application {
-    mainClass = 'com.kang.ocrparser.Main'
+    mainClass.set("com.kang.ocrparser.Main")
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
 tasks.named("run") {
     workingDir = rootProject.projectDir
+}
+
+tasks.named("jar") {
+    manifest {
+        attributes "Main-Class": "com.kang.ocrparser.Main"
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+}
+tasks.withType(Javadoc).configureEach {
+    options.encoding = "UTF-8"
 }

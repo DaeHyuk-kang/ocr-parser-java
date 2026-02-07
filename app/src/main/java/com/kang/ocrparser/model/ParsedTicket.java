@@ -2,7 +2,7 @@ package com.kang.ocrparser.model;
 
 public class ParsedTicket {
 
-    // 날짜 (YYYY-MM-DD)
+    // 날짜 (YYYY-MM-DD or YYYY-MM-DD HH:mm:ss)
     private String weighingDate;
 
     // 차량 번호
@@ -57,4 +57,3 @@ public class ParsedTicket {
         this.netWeightKg = netWeightKg;
     }
 }
-

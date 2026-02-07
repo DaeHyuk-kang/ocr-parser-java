@@ -24,7 +24,7 @@ public class WeighingParser {
             // 채점 안정성 유지
         }
 
-        // ✅ 2) 중량 파싱은 기존 로직 그대로
+        // ✅ 2) 중량 파싱
         String normalized = TextNormalizer.normalize(rawText);
 
         try {

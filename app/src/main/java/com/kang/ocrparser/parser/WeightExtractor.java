@@ -17,10 +17,8 @@ public class WeightExtractor {
     private static final String KG_NUM = "(\\d{1,3}(?:[\\s,]\\d{3})+|\\d{1,6})";
 
     // 라벨과 숫자 사이에 잡문자(시간은 TextNormalizer에서 제거됨)가 있어도 허용
-    // - 줄바꿈도 포함시키려면 [^0-9]가 이미 포함이긴 한데, 길이만 조금 여유 있게
     private static final String GAP = "[^0-9]{0,50}?";
 
-    // normalizedText는 lower-case이지만 한글은 영향 없음.
     private static final int PATTERN_FLAGS = Pattern.MULTILINE;
 
     private static final Pattern GROSS_PATTERN =
@@ -189,7 +187,7 @@ public class WeightExtractor {
         // 쉼표 제거
         s = s.replace(",", "");
 
-        // 천 단위 공백/탭 등 제거 (일반 공백만 말고 공백류 전부)
+        // 천 단위 공백/탭 등 제거
         s = s.replaceAll("\\s+", "");
 
         try {
