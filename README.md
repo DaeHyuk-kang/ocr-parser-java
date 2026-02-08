@@ -7,11 +7,11 @@ Parses OCR text (or sample JSON containing OCR text) into normalized fields:
 - tareWeightKg
 - netWeightKg
 
-## Requirements
+## 🔧 Requirements
 - Java 17+
 - Gradle Wrapper included
 
-## Tested Environment
+## 🖥️ Tested Environment
 - OS: macOS (primary)
 - IDE: Eclipse IDE for Java Developers
 - Java: 17 (Temurin)
@@ -19,7 +19,7 @@ Parses OCR text (or sample JSON containing OCR text) into normalized fields:
 
 > The project is IDE-agnostic and can be executed via Gradle Wrapper on macOS or Windows.
 
-## Sample Data
+## 🧾 Sample Data
 
 `samples/*.json` files are simplified examples derived from OCR provider outputs.
 
@@ -27,18 +27,18 @@ Parses OCR text (or sample JSON containing OCR text) into normalized fields:
 
 - Assumes raw OCR text is sufficient for this task.
 
-## Working Directory & Path Resolution
+## 📁 Working Directory & Path Resolution
 
 Relative input/output paths are resolved from the project root.
 
 The Gradle run task explicitly sets: workingDir = rootProject.projectDir
 
-## How to Run
+## ▶️ How to Run
 
 ### Input
 #### Sample: Noisy OCR Input
 
-The following example demonstrates how the parser handles realistic OCR noise,
+The following sample demonstrates how the parser handles realistic OCR noise,
 including timestamps mixed with weights, inconsistent spacing, and numeric commas.
 
 Input (raw OCR text excerpt)
@@ -135,7 +135,7 @@ rather than force-corrected.
 This ensures the tool is safe to batch-run
 without unexpected crashes.
 
-## Tests
+## 🧪 Tests
 
 - Unit tests are designed to validate:
 
@@ -154,7 +154,7 @@ Run tests:
 	./gradlew test 
 ```
 
-## Logging
+## 📜 Logging
 
 Basic process-level logs are printed to standard output to indicate
 execution flow, parsing progress, and output generation.
@@ -210,7 +210,7 @@ Saved: ./out.json
 - Semantic validation is deferred to a later stage
   (verification or persistence).
 
-## Limitations
+## ⚠️ Limitations
 - License plate patterns are simplified and may not cover all regional formats.
 
 - Date parsing currently supports common numeric formats only (e.g. YYYY-MM-DD HH:mm:ss).
@@ -220,7 +220,7 @@ no machine learning–based entity recognition is used.
 
 - Severe OCR corruption may still result in missing (null) fields.
 
-## Design Rationale
+## 🧠 Design Rationale
 
 Parsing and validation are intentionally separated.
 
@@ -246,7 +246,7 @@ against OCR failures.
 - Vehicle number and weighing date are typically present near the header area of the ticket.
 
 
-## Future Improvements
+## 🚀 Future Improvements
 - Introduce a state-based pipeline:
 
     - PARSED → VERIFIED → PERSISTED
