@@ -232,6 +232,14 @@ during a later verification or persistence stage.
 This approach prevents silent data corruption while maintaining robustness
 against OCR failures.
 
+### Weight Parsing Notes
+
+Weights are parsed as integer kilograms.
+Both large values (e.g. 12,480 kg) and small values below 1,000 kg
+(e.g. 480 kg) are supported, as OCR output may omit thousand separators
+or split digits inconsistently.
+
+
 ## Assumptions
 - All weight values are expressed in kilograms (kg).
 
