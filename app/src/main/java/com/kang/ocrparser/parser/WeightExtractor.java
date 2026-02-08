@@ -207,7 +207,7 @@ public class WeightExtractor {
         return out;
     }
 
-    /**
+    /*
      * 과잉 차단으로 정상 값을 날리지 않도록 "시간/콜론 근처"만 최소 차단.
      * (시간 자체는 TextNormalizer에서 제거하지만, OCR 깨짐으로 콜론이 남는 경우 방어)
      */

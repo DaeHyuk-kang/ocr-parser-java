@@ -7,7 +7,7 @@ public class TextNormalizer {
 
         String text = rawText.toLowerCase();
 
-        // ✅ 시간 토큰 제거 (05:36 / 05:36:01 등)
+        // 시간 토큰 제거 (05:36 / 05:36:01 등)
         text = text.replaceAll("\\b\\d{1,2}:\\d{2}(?::\\d{2})?\\b", " ");
 
         // 1) kg 표기 통합 (k g, kG 등 → kg)

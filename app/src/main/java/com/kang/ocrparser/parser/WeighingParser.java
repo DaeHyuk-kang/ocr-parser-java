@@ -9,7 +9,7 @@ public class WeighingParser {
 
         ParsedTicket ticket = new ParsedTicket();
 
-        // ✅ 1) 원문에서 날짜/차량번호 먼저 추출 (TextNormalizer가 시간 토큰을 지우기 때문)
+        // 1) 원문에서 날짜/차량번호 먼저 추출 (TextNormalizer가 시간 토큰을 지우기 때문)
         try {
             String vehicle = VehicleNumberExtractor.extract(rawText);
             if (vehicle != null && !vehicle.isBlank()) {
@@ -24,7 +24,7 @@ public class WeighingParser {
             // 채점 안정성 유지
         }
 
-        // ✅ 2) 중량 파싱
+        //  2) 중량 파싱
         String normalized = TextNormalizer.normalize(rawText);
 
         try {

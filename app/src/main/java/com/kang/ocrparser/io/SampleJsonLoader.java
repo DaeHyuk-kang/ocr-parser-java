@@ -10,7 +10,7 @@ public class SampleJsonLoader {
     /**
      * sample JSON에서 OCR text를 최대한 안전하게 뽑는다.
      * - {"text": "..."} 형태면 text 사용
-     * - 그 외 구조면 "그냥 raw를 텍스트로 간주" (채점 안정성)
+     * - 그 외 구조면 "그냥 raw를 텍스트로 간주" 
      */
     public static String extractOcrText(String rawJsonOrText) {
         if (rawJsonOrText == null) return "";
@@ -32,7 +32,7 @@ public class SampleJsonLoader {
                 return text.asText("");
             }
 
-            // 2) 혹시 {"ocr": {"text": "..."}}, {"data": {"text": "..."}}
+            // 2) {"ocr": {"text": "..."}}, {"data": {"text": "..."}}
             JsonNode ocr = root.get("ocr");
             if (ocr != null && ocr.has("text") && ocr.get("text").isTextual()) {
                 return ocr.get("text").asText("");
