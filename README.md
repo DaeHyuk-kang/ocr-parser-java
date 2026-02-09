@@ -219,6 +219,8 @@ Saved: ./out.json
 no machine learning–based entity recognition is used.
 
 - Severe OCR corruption may still result in missing (null) fields.
+- - The weighing date is extracted only when an explicit `계량일자` label is present.
+  Generic labels such as `날짜` are excluded to avoid misinterpreting non-weighing dates.
 
 ## 🧠 Design Rationale
 
