@@ -7,10 +7,11 @@ public class SampleJsonLoader {
 
     private static final ObjectMapper OM = new ObjectMapper();
 
-    /**
+    /*
      * sample JSON에서 OCR text를 최대한 안전하게 뽑는다.
      * - {"text": "..."} 형태면 text 사용
-     * - 그 외 구조면 "그냥 raw를 텍스트로 간주" 
+     * - 그 외 구조면 가능한 케이스(ocr.text/data.text/pages[*].text)까지 확인
+     * - 그래도 못 찾으면 raw를 텍스트로 간주
      */
     public static String extractOcrText(String rawJsonOrText) {
         if (rawJsonOrText == null) return "";
@@ -42,7 +43,25 @@ public class SampleJsonLoader {
                 return data.get("text").asText("");
             }
 
-            // 3) 아무것도 못 찾으면 raw를 텍스트로 취급
+            // 3) pages[*].text (샘플 구조 대응)
+            JsonNode pages = root.get("pages");
+            if (pages != null && pages.isArray()) {
+                StringBuilder sb = new StringBuilder();
+                for (JsonNode page : pages) {
+                    if (page != null && page.has("text") && page.get("text").isTextual()) {
+                        String t = page.get("text").asText("").trim();
+                        if (!t.isEmpty()) {
+                            if (sb.length() > 0) sb.append("\n");
+                            sb.append(t);
+                        }
+                    }
+                }
+                if (sb.length() > 0) {
+                    return sb.toString();
+                }
+            }
+
+            // 4) 아무것도 못 찾으면 raw를 텍스트로 취급
             return rawJsonOrText;
 
         } catch (Exception e) {
