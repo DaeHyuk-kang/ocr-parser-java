@@ -21,7 +21,6 @@ public class WeighingParser {
                 ticket.setWeighingDate(date);
             }
         } catch (Exception e) {
-            // 채점 안정성 유지
         }
 
         //  2) 중량 파싱
@@ -30,7 +29,7 @@ public class WeighingParser {
         try {
             WeightExtractor.extract(normalized, ticket);
         } catch (Exception e) {
-            // 크래시 방지 (채점 안정성)
+            // 크래시 방지
         }
 
         return ticket;
