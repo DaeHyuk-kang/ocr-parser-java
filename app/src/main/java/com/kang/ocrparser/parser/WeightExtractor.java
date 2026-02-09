@@ -36,7 +36,7 @@ public class WeightExtractor {
     public static void extract(String normalizedText, ParsedTicket ticket) {
         if (normalizedText == null || normalizedText.isEmpty() || ticket == null) return;
 
-        // 1) 라벨 기반 확정 추출
+        // 1) normalizedText을 확인해서 문자열 값을 확인하고 그 안에 GROSS_PATTERN과 일치하는 값이 있으면 setGrossWeightKg에 저장
         setIfFound(GROSS_PATTERN, normalizedText, ticket::setGrossWeightKg);
         setIfFound(TARE_PATTERN, normalizedText, ticket::setTareWeightKg);
         setIfFound(NET_PATTERN, normalizedText, ticket::setNetWeightKg);
@@ -53,7 +53,7 @@ public class WeightExtractor {
             while (all.find()) {
                 String rawNum = all.group(1);
 
-                // ✅ 시간/콜론 근처 오염만 최소한으로 차단
+                // ✅ 시간/콜론 근처 오염만 최소한으로 차단,회피
                 if (looksLikeTimeNoiseAround(normalizedText, all.start(), rawNum)) {
                     continue;
                 }
@@ -208,7 +208,8 @@ public class WeightExtractor {
     }
 
     /*
-     * 과잉 차단으로 정상 값을 날리지 않도록 "시간/콜론 근처"만 최소 차단.
+     * ocr텍스트의 문제를 텍스트노멀라이저에서 해결을 못했을때 (시간 사이 줄바꿈,시.분.초)
+     * looksLikeTimeNoiseAround에서 시간관련 숫자들을 차단하여 회피하는방식으로 구성
      * (시간 자체는 TextNormalizer에서 제거하지만, OCR 깨짐으로 콜론이 남는 경우 방어)
      */
     private static boolean looksLikeTimeNoiseAround(String text, int matchStart, String rawNum) {

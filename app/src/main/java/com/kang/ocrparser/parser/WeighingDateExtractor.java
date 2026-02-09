@@ -17,20 +17,16 @@ public class WeighingDateExtractor {
     public static String extract(String rawText) {
         if (rawText == null || rawText.isBlank()) return null;
 
-        // 1) 라벨 근처에서 먼저 탐색 (정확도 ↑)
+        // 라벨(앵커) 근처에서만 추출: 근거 없는 전역 탐색은 오탐 위험이 커서 하지 않음
         Matcher anchor = DATE_ANCHOR.matcher(rawText);
-        if (anchor.find()) {
-            String near = anchor.group(2);
-            String dt = pickDateTime(near);
-            if (dt != null) return dt;
-        }
+        if (!anchor.find()) return null;
 
-        // 2) 문서 전체에서 fallback
-        return pickDateTime(rawText);
+        String near = anchor.group(2);
+        return pickDateTime(near);
     }
 
     private static String pickDateTime(String text) {
-        if (text == null) return null;
+        if (text == null || text.isBlank()) return null;
 
         Matcher m = DATE_TIME.matcher(text);
         if (!m.find()) return null;
@@ -38,14 +34,12 @@ public class WeighingDateExtractor {
         String date = m.group(1);
         String time = m.group(2);
 
-        // "2026-02-02-00004" 같은 경우: date만 뽑히고 뒤는 무시됨
         if (date == null) return null;
 
         if (time == null || time.isBlank()) {
             return date; // 시간 없으면 날짜만
         }
 
-        // HH:mm 만 있으면 초를 00으로 맞춰도 되지만, 일단 원문 유지
         return date + " " + time;
     }
 }
