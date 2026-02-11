@@ -12,7 +12,7 @@ public class WeighingDateExtractor {
             Pattern.compile("(\\d{4}-\\d{2}-\\d{2})(?:\\s+(\\d{1,2}:\\d{2}(?::\\d{2})?))?");
 
     private static final Pattern DATE_ANCHOR =
-            Pattern.compile("(계량\\s*일자|계량일자|날\\s*짜|날짜)\\s*[:]?\\s*([^\\n\\r]{0,60})");
+    	    Pattern.compile("(계량\\s*일자|계량일자)\\s*[:]?\\s*([^\\n\\r]{0,60})");
 
     public static String extract(String rawText) {
         if (rawText == null || rawText.isBlank()) return null;

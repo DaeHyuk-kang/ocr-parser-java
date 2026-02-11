@@ -53,7 +53,7 @@ public class WeightExtractor {
             while (all.find()) {
                 String rawNum = all.group(1);
 
-                // ✅ 시간/콜론 근처 오염만 최소한으로 차단,회피
+                //  시간/콜론 근처 오염만 최소한으로 차단,회피
                 if (looksLikeTimeNoiseAround(normalizedText, all.start(), rawNum)) {
                     continue;
                 }
